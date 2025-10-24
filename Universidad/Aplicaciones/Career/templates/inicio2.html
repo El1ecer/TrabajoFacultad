@@ -1,0 +1,99 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+
+<h1>LISTADO DE CARRERAS</h1> <br>
+
+<a href="{% url 'nuevaCarrera' %}" class="btn btn-primary">
+  AGREGAR NUEVA CARRERA
+</a>
+
+<br><br>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<table class="table table-bordered table-striped table-hover" id="tbl_carreras">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>NOMBRE</th>
+      <th>DIRECTORIO</th>
+      <th>DURACIÓN (AÑOS)</th>
+      <th>TELÉFONO</th>
+      <th>EMAIL</th>
+      <th>LOGO</th>
+      <th>FACULTAD</th>
+      <th>ACCIONES</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for car in careers %}
+      <tr>
+        <td>{{ car.id }}</td>
+        <td>{{ car.name_career }}</td>
+        <td>{{ car.directory_car }}</td>
+        <td>{{ car.duration_years }}</td>
+        <td>{{ car.phone_car }}</td>
+        <td>{{ car.email_car }}</td>
+        <td>
+          {% if car.logo %}
+            <img src="{{ car.logo.url }}" height="80" alt="Logo {{ car.name_career }}">
+          {% else %}
+            Ninguno
+          {% endif %}
+        </td>
+        <td>{{ car.facultad.nombre_facultad }}</td>
+        <td>
+          <a href="{% url 'editarCarrera' car.id %}" class="btn btn-outline-warning">
+            <i class="fa fa-pen"></i>
+          </a>
+          <a href="#" onclick="confirmarEliminacion({{ car.id }})" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  // DataTables
+  $('#tbl_carreras').DataTable({
+    dom: 'Bfrtip',
+    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+    language: { url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json' }
+  });
+
+  // Confirmación con SweetAlert2
+  function confirmarEliminacion(id) {
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let url = "{% url 'eliminarCarrera' 0 %}".replace("0", id);
+            window.location.href = url;
+        }
+    });
+  }
+</script>
+
+{% if messages %}
+  {% for mensaje in messages %}
+    <script>
+      Swal.fire({
+        title: "CONFIRMACIÓN",
+        text: "{{ mensaje|escapejs }}",
+        icon: "success"
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+
+<br><br><br><br><br><br><br><br><br>
+{% endblock %}
