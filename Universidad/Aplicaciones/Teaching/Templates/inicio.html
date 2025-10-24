@@ -1,8 +1,102 @@
 {% extends "plantilla.html" %}
 {% load static %}
 {% block contenido %}
-<h1>LISTADO DE DOCENTES</h1>
-<a href="nuevoPro" class="btn btn-primary">AGREGAR NUEVO PROFESOR</a>
-<table class="table table-bordered table-striped table-hover">
+<h1>LISTADO DE DOCENTES</h1> <br>
 
+<a href="nuevoDocente" class="btn btn-primary">
+  AGREGAR NUEVO DOCENTE
+</a>
+
+<br><br>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<table class="table table-bordered table-striped table-hover" id="tbl_docentes">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>NOMBRE</th>
+      <th>APELLIDO</th>
+      <th>EDAD</th>
+      <th>EMAIL</th>
+      <th>CARRERA</th>
+      <th>LOGO</th>
+      <th>PDF</th>
+      <th>ACCIONES</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for docente in docentes %}
+      <tr>
+        <td>{{ docente.id }}</td>
+        <td>{{ docente.first_name }}</td>
+        <td>{{ docente.last_name }}</td>
+        <td>{{ docente.age|default:"-" }}</td>
+        <td>{{ docente.email|default:"-" }}</td>
+        <td>{{ docente.carrera.name_career }}</td>
+        <td>
+          {% if docente.logo %}
+            <img src="{{ docente.logo.url }}" height="80" alt="Logo {{ docente.first_name }}">
+          {% else %}
+            Ninguno
+          {% endif %}
+        </td>
+        <td>
+          {% if docente.pdf %}
+            <a href="{{ docente.pdf.url }}" target="_blank">Ver PDF</a>
+          {% else %}
+            Ninguno
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'editarDocente' docente.id %}" class="btn btn-outline-warning">
+            <i class="fa fa-pen"></i>
+          </a>
+          <a href="#" onclick="confirmarEliminacion({{ docente.id }})" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>
+
+<script>
+  $('#tbl_docentes').DataTable({
+    dom: 'Bfrtip',
+    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+    language: { url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json' }
+  });
+
+  function confirmarEliminacion(id) {
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let url = "{% url 'eliminarDocente' 0 %}".replace("0", id);
+            window.location.href = url;
+        }
+    });
+  }
+</script>
+
+{% if messages %}
+  {% for mensaje in messages %}
+    <script>
+      Swal.fire({
+        title: "CONFIRMACIÓN",
+        text: "{{ mensaje|escapejs }}",
+        icon: "success"
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+
+<br><br><br><br><br><br><br><br><br>
+{% endblock %}
