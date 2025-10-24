@@ -9,12 +9,12 @@
 <form action="{% url 'guardarEdicionCarrera' %}" method="post" id="frm_editarCarrera" enctype="multipart/form-data">
     {% csrf_token %}
     
-    <input type="hidden" name="id" value="{{ carrera.id }}">
+    <input type="hidden" name="id" value="{{ career.id }}">
 
     <label for="facultad">Facultad:</label><br>
     <select class="form-control" name="facultad" id="facultad" required>
         {% for f in facultades %}
-            <option value="{{ f.id }}" {% if carrera.facultad.id == f.id %}selected{% endif %}>
+            <option value="{{ f.id }}" {% if career.facultad.id == f.id %}selected{% endif %}>
                 {{ f.nombre_facultad }} ({{ f.acronym_fac }})
             </option>
         {% endfor %}
@@ -22,24 +22,24 @@
     <br>
 
     <label for="name_career">Nombre de la Carrera:</label><br>
-    <input class="form-control" type="text" name="name_career" id="name_career" value="{{ carrera.name_career }}"> <br>
+    <input class="form-control" type="text" name="name_career" id="name_career" value="{{ career.name_career }}"> <br>
 
     <label for="directory_car">Director de Carrera:</label><br>
-    <input class="form-control" type="text" name="directory_car" id="directory_car" value="{{ carrera.directory_car }}"> <br>
+    <input class="form-control" type="text" name="directory_car" id="directory_car" value="{{ career.directory_car }}"> <br>
 
     <label for="duration_years">Duración (en años):</label><br>
-    <input class="form-control" type="number" name="duration_years" id="duration_years" value="{{ carrera.duration_years }}"> <br>
+    <input class="form-control" type="number" name="duration_years" id="duration_years" value="{{ career.duration_years }}"> <br>
 
     <label for="phone_car">Teléfono:</label><br>
-    <input class="form-control" type="text" name="phone_car" id="phone_car" value="{{ carrera.phone_car }}"> <br>
+    <input class="form-control" type="text" name="phone_car" id="phone_car" value="{{ career.phone_car }}"> <br>
 
     <label for="email_car">Email:</label><br>
-    <input class="form-control" type="email" name="email_car" id="email_car" value="{{ carrera.email_car }}"> <br>
+    <input class="form-control" type="email" name="email_car" id="email_car" value="{{ career.email_car }}"> <br>
 
     <!-- Logo actual -->
     <label for="logo">Logotipo:</label><br>
-    {% if carrera.logo %}
-        <img src="{{ carrera.logo.url }}" alt="Logo actual" width="120"><br><br>
+    {% if career.logo %}
+        <img src="{{ career.logo.url }}" alt="Logo actual" width="120"><br><br>
     {% else %}
         <small>No hay logotipo cargado</small><br><br>
     {% endif %}

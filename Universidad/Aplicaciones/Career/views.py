@@ -31,7 +31,6 @@ def GuardarCarrera(request):
     email_car = request.POST.get("email_car")
     logo = request.FILES.get("logo")
 
-    # Crear registro
     nueva = Careers.objects.create(
         facultad_id=facultad_id,
         name_career=name_career,
@@ -46,16 +45,15 @@ def GuardarCarrera(request):
     return redirect('/')  
 
 
-# ELIMINAR
+
 def EliminarCarrera(request, id):
     car = get_object_or_404(Careers, id=id)
     car.delete()
     messages.success(request, "Carrera eliminada correctamente")
-    # return redirect('inicioCareer')
     return redirect('/')
 
 
-# FORM EDITAR
+
 def editarCarrera(request, id):
     car = get_object_or_404(Careers, id=id)
     facultades = Facultys.objects.all()
@@ -65,13 +63,12 @@ def editarCarrera(request, id):
     })
 
 
-# GUARDAR EDICIÓN
+
 def GuardarEdicionCarrera(request):
     id = request.POST.get("id")
 
     car = get_object_or_404(Careers, id=id)
 
-    # Campos de texto
     car.facultad_id   = request.POST.get("facultad")
     car.name_career   = request.POST.get("name_career")
     car.directory_car = request.POST.get("directory_car")
