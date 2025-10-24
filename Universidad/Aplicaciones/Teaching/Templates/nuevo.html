@@ -38,3 +38,55 @@
 
 </form>
 
+<script>
+    $("#frm_nuevoDocente").validate({
+        rules: {
+            "first_name": { required: true, minlength: 3 },
+            "last_name": { required: true, minlength: 3 },
+            "age": { digits: true, min: 18, max: 100 },
+            "email": { required: true, email: true },
+            "carrera": { required: true }
+        },
+        messages: {
+            "first_name": { required: "Campo obligatorio", minlength: "Debe tener al menos 3 caracteres" },
+            "last_name": { required: "Campo obligatorio", minlength: "Debe tener al menos 3 caracteres" },
+            "age": { digits: "Debe ser un número", min: "Edad mínima 25", max: "Edad máxima 100" },
+            "email": { required: "Campo obligatorio", email: "Ingrese un email valido" },
+            "carrera": { required: "Seleccione una carrera" }
+        }
+    });
+
+    $("#logo").fileinput({
+        theme: "bootstrap5",
+        language: "es",
+        allowedFileExtensions: ["jpg", "jpeg", "png"],
+        showUpload: false,
+        dropZoneEnabled: true,
+        maxFileSize: 2000,
+        showPreview: true,
+        browseLabel: "Seleccionar imagen",
+        removeLabel: "Eliminar",
+        initialCaption: "Arrastra y suelta la imagen aquí",
+        showRemove: true,
+        showZoom: true,
+        showDrag: true
+    });
+
+    $("#pdf").fileinput({
+        theme: "bootstrap5",
+        language: "es",
+        allowedFileExtensions: ["pdf"],
+        showUpload: false,
+        dropZoneEnabled: true,
+        maxFileSize: 5000,
+        showPreview: true,
+        browseLabel: "Seleccionar PDF",
+        removeLabel: "Eliminar",
+        initialCaption: "Arrastra y suelta el PDF aquí",
+        showRemove: true,
+        showZoom: true,
+        showDrag: true
+    });
+</script>
+
+{% endblock %}
