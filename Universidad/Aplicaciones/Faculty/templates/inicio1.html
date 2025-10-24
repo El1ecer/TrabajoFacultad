@@ -1,0 +1,103 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+<h1>LISTADO DE FACULTADES</h1> <br>
+
+<a href="nuevaFacultad" class="btn btn-primary">
+  AGREGAR NUEVA FACULTAD
+</a>
+
+<br><br>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<table class="table table-bordered table-striped table-hover" id="tbl_facultades">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>NOMBRE</th>
+      <th>ACRÓNIMO</th>
+      <th>DECANO</th>
+      <th>TELÉFONO</th>
+      <th>EMAIL</th>
+      <th>LOGO</th>
+      <th>AÑO FUNDACIÓN</th>
+      <th>ACCIONES</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for fac in facultades %}
+      <tr>
+        <td>{{ fac.id }}</td>
+        <td>{{ fac.nombre_facultad }}</td>
+        <td>{{ fac.acronym_fac }}</td>
+        <td>{{ fac.dean_name_fac }}</td>
+        <td>{{ fac.phone_fac }}</td>
+        <td>{{ fac.email_fac }}</td>
+        <td>
+          {% if fac.logo_fac %}
+            <img src="{{ fac.logo_fac.url }}" height="80" alt="Logo {{ fac.nombre_facultad }}">
+          {% else %}
+            Ninguno
+          {% endif %}
+        </td>
+        <td>{{ fac.year_fundation_fac }}</td>
+        <td>
+          <a href="{% url 'editarFacultad' fac.id %}" class="btn btn-outline-warning">
+            <i class="fa fa-pen"></i>
+        </a>
+        <a href="#" onclick="confirmarEliminacion({{ fac.id }})" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i>
+        </a>
+
+
+
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  // DataTables
+  $('#tbl_facultades').DataTable({
+    dom: 'Bfrtip',
+    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+    language: { url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json' }
+  });
+
+  // Confirmación con SweetAlert2
+  function confirmarEliminacion(id) {
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Genera la URL usando Django
+            let url = "{% url 'eliminarFacultad' 0 %}".replace("0", id);
+            window.location.href = url;
+        }
+    });
+}
+
+</script>
+
+{% if messages %}
+  {% for mensaje in messages %}
+    <script>
+      Swal.fire({
+        title: "CONFIRMACIÓN",
+        text: "{{ mensaje|escapejs }}",
+        icon: "success"
+      });
+    </script>
+  {% endfor %}
+{% endif %}
+
+<br><br><br><br><br><br><br><br><br>
+{% endblock %}
