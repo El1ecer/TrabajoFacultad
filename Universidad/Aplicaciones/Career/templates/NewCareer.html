@@ -1,0 +1,125 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+
+<h1>AGREGAR UNA NUEVA CARRERA</h1>
+
+<form action="{% url 'guardarCarrera' %}" method="post" id="frm_nuevaCarrera" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label for="facultad">Facultad:</label><br>
+    <select class="form-control" name="facultad" id="facultad" required>
+        <option value="">-- Selecciona una facultad --</option>
+        {% for f in facultades %}
+          <option value="{{ f.id }}">{{ f.nombre_facultad }} ({{ f.acronym_fac }})</option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <label for="name_career">Nombre de la Carrera:</label><br>
+    <input class="form-control" type="text" name="name_career" id="name_career" placeholder="Ingrese el nombre de la carrera"> <br>
+
+    <label for="directory_car">Director de Carrera:</label><br>
+    <input class="form-control" type="text" name="directory_car" id="directory_car" placeholder="Ingrese el director de la carrera"> <br>
+
+    <label for="duration_years">Duración (en años):</label><br>
+    <input class="form-control" type="number" name="duration_years" id="duration_years" placeholder="Ingrese los años de duración"> <br>
+
+    <label for="phone_car">Teléfono:</label><br>
+    <input class="form-control" type="text" name="phone_car" id="phone_car" placeholder="Ingrese el número de teléfono"> <br>
+
+    <label for="email_car">Email:</label><br>
+    <input class="form-control" type="email" name="email_car" id="email_car" placeholder="Ingrese el correo electrónico"> <br>
+
+    <label for="logo">Logo de la Carrera:</label><br>
+    <input class="form-control" type="file" name="logo" id="logo" accept="image/*" placeholder="Seleccione una imagen"> <br>
+
+    <button class="btn btn-success" type="submit">GUARDAR</button> <br><br>
+    <a class="btn btn-outline-danger" href="{% url 'inicioCareer' %}">CANCELAR</a> <br><br>
+
+</form>
+
+<!-- Validaciones con jQuery Validate -->
+<script>
+    $("#frm_nuevaCarrera").validate({
+        rules: {
+            "facultad": {
+                required: true
+            },
+            "name_career": {
+                required: true,
+                minlength: 3
+            },
+            "directory_car": {
+                required: true,
+                minlength: 5
+            },
+            "duration_years": {
+                required: true,
+                digits: true,
+                min: 1,
+                max: 10
+            },
+            "phone_car": {
+                required: true,
+                digits: true,
+                minlength: 7,
+                maxlength: 15
+            },
+            "email_car": {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            "facultad": {
+                required: "Debe seleccionar una facultad"
+            },
+            "name_career": {
+                required: "Campo obligatorio",
+                minlength: "Debe tener al menos 3 caracteres"
+            },
+            "directory_car": {
+                required: "Ingrese el nombre del director de carrera",
+                minlength: "Debe tener al menos 5 caracteres"
+            },
+            "duration_years": {
+                required: "Ingrese los años de duración",
+                digits: "Solo números",
+                min: "Debe ser al menos 1 año",
+                max: "No puede superar los 10 años"
+            },
+            "phone_car": {
+                required: "Ingrese un teléfono",
+                digits: "Solo se permiten números",
+                minlength: "El teléfono es muy corto",
+                maxlength: "El teléfono es demasiado largo"
+            },
+            "email_car": {
+                required: "Ingrese un correo electrónico",
+                email: "Debe ingresar un email válido"
+            }
+        }
+    });
+</script>
+
+<!-- Configuración para vista previa del logo -->
+<script>
+    $("#logo").fileinput({
+        theme: "bootstrap5",  
+        language: "es",
+        allowedFileExtensions: ["jpg", "jpeg", "png"],
+        showUpload: false,
+        dropZoneEnabled: true,
+        maxFileSize: 2000,
+        showPreview: true,
+        browseLabel: "Seleccionar logo",
+        removeLabel: "Eliminar",
+        initialCaption: "Arrastra y suelta la imagen aquí",
+        showRemove: true,
+        showZoom: true,
+        showDrag: true
+    });
+</script>
+
+{% endblock %}
