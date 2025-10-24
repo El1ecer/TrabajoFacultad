@@ -1,0 +1,40 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+
+<h1>AGREGAR UN NUEVO DOCENTE</h1>
+
+<form action="{% url 'guardarDocente' %}" method="post" id="frm_nuevoDocente" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label for="first_name">Nombre:</label><br>
+    <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Ingrese el nombre del docente"> <br>
+
+    <label for="last_name">Apellido:</label><br>
+    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Ingrese el apellido del docente"> <br>
+
+    <label for="age">Edad:</label><br>
+    <input class="form-control" type="number" name="age" id="age" placeholder="Ingrese la edad del docente"> <br>
+
+    <label for="email">Email:</label><br>
+    <input class="form-control" type="email" name="email" id="email" placeholder="Ingrese el correo electrónico"> <br>
+
+    <label for="carrera">Carrera:</label><br>
+    <select class="form-control" name="carrera" id="carrera">
+        <option value="">Seleccione una carrera</option>
+        {% for car in carreras %}
+            <option value="{{ car.id }}">{{ car.name_career }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="logo">Foto / Logo del docente:</label><br>
+    <input class="form-control" type="file" name="logo" id="logo" accept="image/*" placeholder="Seleccione una imagen"> <br>
+
+    <label for="pdf">Documento PDF:</label><br>
+    <input class="form-control" type="file" name="pdf" id="pdf" accept="application/pdf"> <br>
+
+    <button class="btn btn-success" type="submit">GUARDAR</button> <br><br>
+    <a class="btn btn-outline-danger" href="/">CANCELAR</a> <br><br>
+
+</form>
+

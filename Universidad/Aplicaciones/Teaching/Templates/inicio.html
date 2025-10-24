@@ -11,7 +11,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<table class="table table-bordered table-striped table-hover" id="tbl_docentes">
+<table class="table table-bordered table-striped table-hover" id="tblDocentes">
   <thead>
     <tr>
       <th>ID</th>
@@ -36,20 +36,20 @@
         <td>{{ docente.carrera.name_career }}</td>
         <td>
           {% if docente.logo %}
-            <img src="{{ docente.logo.url }}" height="80" alt="Logo {{ docente.first_name }}">
+            <img src="docenteLogo" height="80" alt="Logo {{ docente.first_name }}">
           {% else %}
             Ninguno
           {% endif %}
         </td>
         <td>
           {% if docente.pdf %}
-            <a href="{{ docente.pdf.url }}" target="_blank">Ver PDF</a>
+            <a href="docentepdf" target="_blank">Ver PDF</a>
           {% else %}
             Ninguno
           {% endif %}
         </td>
         <td>
-          <a href="{% url 'editarDocente' docente.id %}" class="btn btn-outline-warning">
+          <a href="editarDocente" class="btn btn-outline-warning">
             <i class="fa fa-pen"></i>
           </a>
           <a href="#" onclick="confirmarEliminacion({{ docente.id }})" class="btn btn-outline-danger">
@@ -62,7 +62,7 @@
 </table>
 
 <script>
-  $('#tbl_docentes').DataTable({
+  $('#tblDocentes').DataTable({
     dom: 'Bfrtip',
     buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
     language: { url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json' }
