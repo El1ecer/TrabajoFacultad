@@ -1,0 +1,121 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block contenido %}
+
+<h1>AGREGAR UNA NUEVA FACULTAD</h1>
+
+<form action="{% url 'guardarFacultad' %}" method="post" id="frm_nuevaFacultad" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label for="nombre_facultad">Nombre de la Facultad:</label><br>
+    <input class="form-control" type="text" name="nombre_facultad" id="nombre_facultad" placeholder="Ingrese el nombre de la facultad"> <br>
+
+    <label for="acronym_fac">Acrónimo:</label><br>
+    <input class="form-control" type="text" name="acronym_fac" id="acronym_fac" placeholder="Ingrese el acrónimo"> <br>
+
+    <label for="dean_name_fac">Nombre del Decano:</label><br>
+    <input class="form-control" type="text" name="dean_name_fac" id="dean_name_fac" placeholder="Ingrese el nombre del decano"> <br>
+
+    <label for="phone_fac">Teléfono:</label><br>
+    <input class="form-control" type="text" name="phone_fac" id="phone_fac" placeholder="Ingrese el número de teléfono"> <br>
+
+    <label for="email_fac">Email:</label><br>
+    <input class="form-control" type="email" name="email_fac" id="email_fac" placeholder="Ingrese el correo electrónico"> <br>
+
+    <label for="year_fundation_fac">Año de Fundación:</label><br>
+    <input class="form-control" type="number" name="year_fundation_fac" id="year_fundation_fac" placeholder="Ingrese el año de fundación"> <br>
+
+    <label for="logo_fac">Logo de la Facultad:</label><br>
+    <input class="form-control" type="file" name="logo_fac" id="logo_fac" accept="image/*" placeholder="Seleccione una imagen"> <br>
+
+    <button class="btn btn-success" type="submit">GUARDAR</button> <br><br>
+    <a class="btn btn-outline-danger" href="/">CANCELAR</a> <br><br>
+
+</form>
+
+<!-- Validaciones con jQuery Validate -->
+<script>
+    $("#frm_nuevaFacultad").validate({
+        rules: {
+            "nombre_facultad": {
+                required: true,
+                minlength: 3
+            },
+            "acronym_fac": {
+                required: true,
+                maxlength: 15
+            },
+            "dean_name_fac": {
+                required: true,
+                minlength: 5
+            },
+            "phone_fac": {
+                required: true,
+                digits: true,
+                minlength: 7,
+                maxlength: 15
+            },
+            "email_fac": {
+                required: true,
+                email: true
+            },
+            "year_fundation_fac": {
+                required: true,
+                digits: true,
+                min: 1800,
+                max: new Date().getFullYear()
+            }
+        },
+        messages: {
+            "nombre_facultad": {
+                required: "Campo obligatorio",
+                minlength: "Debe tener al menos 3 caracteres"
+            },
+            "acronym_fac": {
+                required: "Ingrese un acrónimo",
+                maxlength: "Máximo 15 caracteres"
+            },
+            "dean_name_fac": {
+                required: "Ingrese el nombre del decano",
+                minlength: "Debe tener al menos 5 caracteres"
+            },
+            "phone_fac": {
+                required: "Ingrese un teléfono",
+                digits: "Solo se permiten números",
+                minlength: "El teléfono es muy corto",
+                maxlength: "El teléfono es demasiado largo"
+            },
+            "email_fac": {
+                required: "Ingrese un correo electrónico",
+                email: "Debe ingresar un email válido"
+            },
+            "year_fundation_fac": {
+                required: "Ingrese el año de fundación",
+                digits: "Debe ser un número",
+                min: "El año no puede ser menor a 1800",
+                max: "El año no puede ser mayor al actual"
+            }
+        }
+    });
+</script>
+
+<!-- Configuración para vista previa del logo -->
+<script>
+    $("#logo_fac").fileinput({
+        theme: "bootstrap5",  
+        language: "es",
+        allowedFileExtensions: ["jpg", "jpeg", "png"],
+        showUpload: false,
+        dropZoneEnabled: true,
+        maxFileSize: 2000,
+        showPreview: true,
+        browseLabel: "Seleccionar logo",
+        removeLabel: "Eliminar",
+        initialCaption: "Arrastra y suelta la imagen aquí",
+        showRemove: true,
+        showZoom: true,
+        showDrag: true
+    });
+</script>
+
+{% endblock %}
