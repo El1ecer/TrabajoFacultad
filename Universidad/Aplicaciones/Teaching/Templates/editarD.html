@@ -4,22 +4,22 @@
 
 <h1>EDITAR DOCENTE</h1>
 
-<form action="{% url 'guardarEdicionDocente' %}" method="post" enctype="multipart/form-data" id="frm_editarDocente">
+<form action="/Teaching/guardarEdicionDocente/" method="post" enctype="multipart/form-data" id="frm_editarDocente">
     {% csrf_token %}
     
-    <input type="hidden" name="id" value="{{ docente.id }}">
+    <input type="hidden" name="id" value="{{ docenteTemp.id }}">
 
     <label for="first_name">Nombre:</label><br>
-    <input class="form-control" type="text" name="first_name" id="first_name" value="{{ docente.first_name }}"> <br>
+    <input class="form-control" type="text" name="first_name" id="first_name" value="{{ docenteTemp.first_name }}"> <br>
 
     <label for="last_name">Apellido:</label><br>
-    <input class="form-control" type="text" name="last_name" id="last_name" value="{{ docente.last_name }}"> <br>
+    <input class="form-control" type="text" name="last_name" id="last_name" value="{{ docenteTemp.last_name }}"> <br>
 
     <label for="age">Edad:</label><br>
-    <input class="form-control" type="number" name="age" id="age" value="{{ docente.age }}"> <br>
+    <input class="form-control" type="number" name="age" id="age" value="{{ docenteTemp.age }}"> <br>
 
     <label for="email">Email:</label><br>
-    <input class="form-control" type="email" name="email" id="email" value="{{ docente.email }}"> <br>
+    <input class="form-control" type="email" name="email" id="email" value="{{ docenteTemp.email }}"> <br>
 
     <label for="carrera">Carrera:</label><br>
     <select class="form-control" name="carrera" id="carrera">
@@ -30,23 +30,23 @@
     </select><br>
 
     <label for="logo">Foto / Logo actual:</label><br>
-    {% if docente.logo %}
-        <img src="{{ docente.logo.url }}" alt="Logo actual" width="120"><br><br>
+    {% if docenteTemp.logo %}
+        <img src="{{ docenteTemp.logo.url }}" alt="Logo actual" width="120"><br><br>
     {% else %}
         <small>No hay imagen cargada</small><br><br>
     {% endif %}
     <input class="form-control" type="file" name="logo" id="logo"> <br>
 
     <label for="pdf">Documento PDF actual:</label><br>
-    {% if docente.pdf %}
-        <a href="{{ docente.pdf.url }}" target="_blank">Ver PDF existente</a><br><br>
+    {% if docenteTemp.pdf %}
+        <a href="{{ docenteTemp.pdf.url }}" target="_blank">Ver PDF existente</a><br><br>
     {% else %}
         <small>No hay PDF cargado</small><br><br>
     {% endif %}
     <input class="form-control" type="file" name="pdf" id="pdf"> <br>
 
     <button class="btn btn-success" type="submit">GUARDAR</button>
-    <a class="btn btn-outline-danger" href="/">CANCELAR</a>
+    <a class="btn btn-outline-danger" href="/Teaching">CANCELAR</a>
 
 </form>
 

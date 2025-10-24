@@ -3,9 +3,7 @@
 {% block contenido %}
 <h1>LISTADO DE DOCENTES</h1> <br>
 
-<a href="nuevoDocente" class="btn btn-primary">
-  AGREGAR NUEVO DOCENTE
-</a>
+<a href="/Teaching/nuevoDocente/" class="btn btn-primary">AGREGAR NUEVO DOCENTE</a>
 
 <br><br>
 
@@ -26,33 +24,40 @@
     </tr>
   </thead>
   <tbody>
-    {% for docente in docentes %}
+    {% for docenteTemp in docentes %}
       <tr>
-        <td>{{ docente.id }}</td>
-        <td>{{ docente.first_name }}</td>
-        <td>{{ docente.last_name }}</td>
-        <td>{{ docente.age|default:"-" }}</td>
-        <td>{{ docente.email|default:"-" }}</td>
-        <td>{{ docente.carrera.name_career }}</td>
+        <td>{{ docenteTemp.id }}</td>
+        <td>{{ docenteTemp.first_name }}</td>
+        <td>{{ docenteTemp.last_name }}</td>
+        <td>{{ docenteTemp.age|default:"-" }}</td>
+        <td>{{ docenteTemp.email|default:"-" }}</td>
+        <td>{% if docenteTemp.carrera %}{{ docenteTemp.carrera.name_career }}{% else %}-{% endif %}</td>
         <td>
-          {% if docente.logo %}
-            <img src="docenteLogo" height="80" alt="Logo {{ docente.first_name }}">
+          {% if docenteTemp.logo %}
+            <img src="{{ docenteTemp.logo.url }}" height="80" alt="Logo {{ docenteTemp.first_name }}">
           {% else %}
             Ninguno
           {% endif %}
         </td>
         <td>
-          {% if docente.pdf %}
-            <a href="docentepdf" target="_blank">Ver PDF</a>
+          {% if docenteTemp.pdf %}
+            <a href="{{ docenteTemp.pdf.url }}" target="_blank">Ver PDF</a>
           {% else %}
             Ninguno
           {% endif %}
         </td>
         <td>
-          <a href="editarDocente" class="btn btn-outline-warning">
-            <i class="fa fa-pen"></i>
-          </a>
-          <a href="#" onclick="confirmarEliminacion({{ docente.id }})" class="btn btn-outline-danger">
+            {% if docenteTemp.id %}
+                <a href="/Teaching/editarDocente/{{ docenteTemp.id }}/" class="btn btn-outline-warning">
+                    <i class="fa fa-pen"></i>
+                </a>
+                {% else %}
+                <button class="btn btn-outline-warning" disabled>
+                    <i class="fa fa-pen"></i>
+                </button>
+            {% endif %}
+
+          <a href="#" onclick="confirmarEliminacion({{ docenteTemp.id }})" class="btn btn-outline-danger">
             <i class="fa fa-trash"></i>
           </a>
         </td>
@@ -79,7 +84,7 @@
         confirmButtonText: "Sí, eliminar"
     }).then((result) => {
         if (result.isConfirmed) {
-            let url = "{% url 'eliminarDocente' 0 %}".replace("0", id);
+            let url = "/Teaching/eliminarDocente/" + id + "/";
             window.location.href = url;
         }
     });

@@ -23,7 +23,7 @@ def nuevaCarrera(request):
 
 
 def GuardarCarrera(request):
-    facultad_id = request.POST.get("facultad")  # <select name="facultad"> en tu template
+    facultad_id = request.POST.get("facultad")  
     name_career = request.POST.get("name_career")
     directory_car  = request.POST.get("directory_car")
     duration_years = request.POST.get("duration_years")

@@ -4,7 +4,7 @@
 
 <h1>AGREGAR UN NUEVO DOCENTE</h1>
 
-<form action="{% url 'guardarDocente' %}" method="post" id="frm_nuevoDocente" enctype="multipart/form-data">
+<form action="/Teaching/guardarDocente/" method="post" id="frm_nuevoDocente" enctype="multipart/form-data">
     {% csrf_token %}
 
     <label for="first_name">Nombre:</label><br>
@@ -34,7 +34,7 @@
     <input class="form-control" type="file" name="pdf" id="pdf" accept="application/pdf"> <br>
 
     <button class="btn btn-success" type="submit">GUARDAR</button> <br><br>
-    <a class="btn btn-outline-danger" href="/">CANCELAR</a> <br><br>
+    <a class="btn btn-outline-danger" href="/Teaching/">CANCELAR</a> <br><br>
 
 </form>
 
